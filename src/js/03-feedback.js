@@ -12,23 +12,19 @@ if (localStorage.getItem('feedback-form-state') === null) {
 } else {
   const currentValue = JSON.parse(localStorage.getItem('feedback-form-state'));
   inputValue.email = currentValue.email;
-  emailInput.value = currentValue.email;
+  emailInput.value = inputValue.email;
   inputValue.message = currentValue.message;
-  messageInput.value = currentValue.message;
+  messageInput.value = inputValue.message;
 }
 
-emailInput.addEventListener(
+formSubmit.addEventListener(
   'input',
-  throttle(event => {
-    inputValue.email = event.target.value;
-    localStorage.setItem('feedback-form-state', JSON.stringify(inputValue));
-  }, 500)
-);
-
-messageInput.addEventListener(
-  'input',
-  throttle(event => {
-    inputValue.message = event.target.value;
+  throttle(formEvent => {
+    if (formEvent.target === emailInput) {
+      inputValue.email = formEvent.target.value;
+    } else {
+      inputValue.message = formEvent.target.value;
+    }
     localStorage.setItem('feedback-form-state', JSON.stringify(inputValue));
   }, 500)
 );
